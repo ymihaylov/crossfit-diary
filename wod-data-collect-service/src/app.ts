@@ -6,6 +6,17 @@ config();
 const app: Application = express();
 
 app.get('/', (request: Request, response: Response, next: NextFunction) => {
+    console.log("hello!");
+    response.json({
+        status: "Successs",
+        message: "Hello World!",
+        description: "Express server with TypeScript"
+    });
+
+    // response.send('Express server with TypeScript!');
+});
+
+app.post('/collect-wod-data', (request: Request, response: Response, next: NextFunction) => {
     response.send('Express server with TypeScript!');
 });
 
