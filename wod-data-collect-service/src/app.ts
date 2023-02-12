@@ -6,10 +6,10 @@ config();
 const app: Application = express();
 
 app.get('/', (request: Request, response: Response, next: NextFunction) => {
-    response.send('Express server with TypeScript! By Yavchhhhhh!');
+    response.send('Express server with TypeScript!');
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`);
