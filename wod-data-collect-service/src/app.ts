@@ -17,7 +17,7 @@ app.get('/', (request: Request, response: Response, next: NextFunction) => {
 });
 
 app.post('/collect-wod-data', (request: Request, response: Response, next: NextFunction) => {
-    response.send('Express server with TypeScript!');
+    response.send('Yyyyss POST Request! Express server with TypeScript!');
 });
 
 const PORT = process.env.PORT;
