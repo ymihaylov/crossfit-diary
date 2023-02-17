@@ -9,3 +9,7 @@
 
 # Debugging node.js in docker container
 - https://stackoverflow.com/questions/47800466/nodemon-inspect-debug-not-working
+
+# PostgreSQL
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+

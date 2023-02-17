@@ -1,0 +1,20 @@
+version: '3'
+services:
+  db:
+    build:
+      context: ./db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: mydb
+  app:
+    build:
+      context: ./app
+    environment:
+      DB_HOST: db
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: mydb
+      DB_PORT: 5432
+    ports:
+      - '3000:3000'

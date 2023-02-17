@@ -4,19 +4,18 @@ import express, { Application, NextFunction, Request, Response } from 'express';
 config();
 
 const app: Application = express();
+app.use(express.json());
 
 app.get('/', (request: Request, response: Response, next: NextFunction) => {
-    console.log("hello!");
     response.json({
         status: "Successs",
         message: "Hello World!",
         description: "Express server with TypeScript"
     });
-
-    // response.send('Express server with TypeScript!');
 });
 
 app.post('/collect-wod-data', (request: Request, response: Response, next: NextFunction) => {
+    request.body.text;
     response.send('Yyyyss POST Request! Express server with TypeScript!');
 });
 
