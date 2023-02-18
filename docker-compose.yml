@@ -9,8 +9,8 @@ services:
       POSTGRES_DB: crossfit_diary
     ports:
       - "5432:5432"
-    # volumes:
-    #   - './init-scripts:/docker-entrypoint-initdb.d'
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
 
   wod-data-collect-service:
     build: ./wod-data-collect-service
@@ -27,3 +27,6 @@ services:
       PGDATABASE: crossfit_diary
       PGPORT: 5432
       PGHOST: crossfit-diary-db-service
+
+volumes:
+  pgdata:
