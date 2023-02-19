@@ -1,7 +1,7 @@
 import { config } from 'dotenv';
 import express, { Application, NextFunction, Request, Response } from 'express';
-import { Client } from 'pg';
-import { Sequelize } from 'sequelize';
+import sequelize from './infrastructure/db';
+import { WodEntry } from './models/wod-entry.model';
 
 config();
 
@@ -10,6 +10,7 @@ app.use(express.json());
 
 app.get('/', (request: Request, response: Response, next: NextFunction) => {
     tryToConnectToDatabase();
+
     response.json({
         status: "Successs",
         message: "Hello World!",
@@ -17,41 +18,14 @@ app.get('/', (request: Request, response: Response, next: NextFunction) => {
     });
 });
 
-async function tryToConnectToDatabaseOld() {
-    const client = new Client({
-        user: 'postgres',
-        password: 'postgres',
-        host: 'crossfit-diary-db-service',
-        database: 'crossfit_diary',
-        port: 5432
-      });
-
-      try {
-        await client.connect();
-        console.log('Connected to the databas');
-      } catch (err) {
-        console.error('Failed to connect to the database');
-        console.error(err);
-      }
-}
-
 async function tryToConnectToDatabase() {
-    const sequelize = new Sequelize({
-        dialect: 'postgres',
-        host: process.env.DB_HOST,
-        username: process.env.DB_USER,
-        password: process.env.DB_PASSWORD,
-        port: Number(process.env.DB_PORT),
-      });
+    // const user = await WodEntry.create({text: "Hello", wod_date: new Date()});
 
-    try {
-        await sequelize.authenticate();
-        console.log('Connection has been established successfully.');
-    } catch (error) {
-        console.error('Unable to connect to the database:', error);
-    }
+    const user = await WodEntry.findOne({where: {text: "Hello"}});
+    console.log(user);
+
+    // console.log(user.wod_date);
 }
-
 
 app.post('/collect-wod-data', (request: Request, response: Response, next: NextFunction) => {
     request.body.text;
