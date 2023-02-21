@@ -1,4 +1,4 @@
-import { Model, DataTypes } from 'sequelize';
+import { Model, DataTypes, NOW } from 'sequelize';
 import sequelize from '../infrastructure/db';
 
 export class WodEntry extends Model {
@@ -9,8 +9,6 @@ export class WodEntry extends Model {
   public readonly updatedAt!: Date;
 }
 
-console.log(sequelize.getDatabaseName());
-
 WodEntry.init({
 	id: {
 		type: DataTypes.INTEGER,
@@ -20,10 +18,18 @@ WodEntry.init({
 	text: {
 		type: DataTypes.STRING,
 		allowNull: false,
+		validate: {
+			notEmpty: {
+				msg: 'Please enter the text ..'
+			},
+		}
 	},
 	wod_date: {
 		type: DataTypes.DATEONLY,
 		allowNull: false,
+		validate: {
+			isDate: true,
+		}
 	},
 }, {
   sequelize,

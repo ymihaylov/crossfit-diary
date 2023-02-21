@@ -15,3 +15,16 @@ async function tryToConnectToDatabaseOld() {
         console.error(err);
       }
 }
+
+// =======
+
+async function tryToConnectToDatabase() {
+  // const user = await WodEntry.create({text: "Hello", wod_date: new Date()});
+
+  // const user = await WodEntry.findOne({where: {text: "Hello"}});
+  // console.log(user);
+
+  // console.log(user.wod_date);
+}
+
+// =======
