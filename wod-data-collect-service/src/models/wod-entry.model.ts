@@ -20,7 +20,10 @@ WodEntry.init({
 		allowNull: false,
 		validate: {
 			notEmpty: {
-				msg: 'Please enter the text ..'
+				msg: 'Text field should not be blank.'
+			},
+			notNull: {
+				msg: 'Text field should not be blank'
 			},
 		}
 	},
@@ -28,7 +31,10 @@ WodEntry.init({
 		type: DataTypes.DATEONLY,
 		allowNull: false,
 		validate: {
-			isDate: true,
+			isDate: {
+				args: true,
+				msg: 'Date should be valid date value',
+			},
 		}
 	},
 }, {
