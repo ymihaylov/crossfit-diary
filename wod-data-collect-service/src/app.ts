@@ -1,16 +1,53 @@
 import { config } from 'dotenv';
 import express, { Application, NextFunction, Request, Response } from 'express';
+import { ValidationError } from 'sequelize';
+import { WodEntry } from './models/wod-entry.model';
+import ValidationService from './services/ValidationService';
 
 config();
 
 const app: Application = express();
+app.use(express.json());
 
 app.get('/', (request: Request, response: Response, next: NextFunction) => {
-    response.send('Express server with TypeScript!');
+    response.json({
+        status: "successs",
+        message: "Hello World!",
+        description: "Nothing to do here! Express server with TypeScript!"
+    });
 });
 
-const PORT = process.env.PORT;
+app.post('/collect-wod-data', (request: Request, response: Response, next: NextFunction) => {
+    WodEntry.create({text: request.body.text, wod_date: request.body.date})
+        .then(function (wodEntry: WodEntry) {
+            response.status(200).json({
+                status: "Successs",
+                message: "Successfuly created new Wod Entry!",
+            });
+        })
+        .catch((error) => {
+            // @TODO - Move this to middleware
+            if (error instanceof ValidationError) {
+                const validationService = new ValidationService;
 
-app.listen(PORT, () => {
-    console.log(`Server is listening on port ${PORT}`);
+                response.status(422).json({
+                    status: "error",
+                    message: "Validation error!",
+                    errors: validationService.extractErrorMessages(error)
+                });
+
+                return;
+            }
+
+            response.status(500).json({
+                status: "internal_server_error",
+                message: "something_went_wrong",
+            });
+        });
+});
+
+const APP_PORT = process.env.APP_PORT;
+
+app.listen(APP_PORT, () => {
+    console.log(`Server is listening on port ${APP_PORT}`);
 });
