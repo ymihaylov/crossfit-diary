@@ -1,13 +1,23 @@
 import { ValidationError, ValidationErrorItem } from "sequelize";
 
-export class ValidationService {
-	public extractErrorMessages(validationError: ValidationError) {
-		const result = {
-			text: [
+type ExtractedErrorMessages = {
+  [key: string]: string[];
+};
 
-			]
-		};
+export default class ValidationService {
+	public extractErrorMessages(validationError: ValidationError): ExtractedErrorMessages {
+		return validationError.errors.reduce((result: ExtractedErrorMessages, error: ValidationErrorItem) => {
+			if (!error.path) {
+				return result;
+			}
 
-		// validationError.errors.forEach((error: ValidationErrorItem) => {error.path: }})
-	}
+			if (!result[error.path]) {
+				result[error.path] = [];
+			}
+
+		  	result[error.path]?.push(error.message);
+
+		  	return result;
+		}, {});
+	  }
 }

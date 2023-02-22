@@ -1,10 +1,8 @@
 import { config } from 'dotenv';
 import express, { Application, NextFunction, Request, Response } from 'express';
 import { ValidationError } from 'sequelize';
-import sequelize from './infrastructure/db';
 import { WodEntry } from './models/wod-entry.model';
-import { ValidationService } from './services/ValidationService';
-import WodService from './services/WodService';
+import ValidationService from './services/ValidationService';
 
 config();
 
@@ -28,13 +26,17 @@ app.post('/collect-wod-data', (request: Request, response: Response, next: NextF
             });
         })
         .catch((error) => {
+            // @TODO - Move this to middleware
             if (error instanceof ValidationError) {
                 const validationService = new ValidationService;
+
                 response.status(422).json({
                     status: "error",
                     message: "Validation error!",
                     errors: validationService.extractErrorMessages(error)
                 });
+
+                return;
             }
 
             response.status(500).json({
