@@ -1,3 +1,4 @@
+```typescript
 async function tryToConnectToDatabaseOld() {
     const client = new Client({
         user: 'postgres',
@@ -15,16 +16,19 @@ async function tryToConnectToDatabaseOld() {
         console.error(err);
       }
 }
+```
 
-// =======
-
+```typescript
 async function tryToConnectToDatabase() {
-  // const user = await WodEntry.create({text: "Hello", wod_date: new Date()});
 
-  // const user = await WodEntry.findOne({where: {text: "Hello"}});
-  // console.log(user);
+const user = await WodEntry.findOne({where: {text: "Hello"}});
+  console.log(user);
 
-  // console.log(user.wod_date);
+  console.log(user.wod_date);
 }
+```
 
-// =======
+```bash
+docker exec -it  0bf215a82792 kafka-console-producer.sh --broker-list localhost:9092 --topic MyTestTopic
+docker exec -it 0bf215a82792 kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic MyTestTopic --from-beginning
+```
