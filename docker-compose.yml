@@ -21,6 +21,20 @@ services:
       - "9229:9229"
     depends_on:
       - crossfit-diary-db-service
+      - kafka
+    environment:
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGDATABASE: crossfit_diary
+      PGPORT: 5432
+      PGHOST: crossfit-diary-db-service
+
+  workouts-data-transform-service:
+    build: ./workouts-data-transform-service
+    volumes:
+      - ./workouts-data-transform-service:/usr/src/app
+    depends_on:
+      - kafka
     environment:
       PGUSER: postgres
       PGPASSWORD: postgres

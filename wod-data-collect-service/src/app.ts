@@ -22,7 +22,7 @@ app.get('/', (request: Request, response: Response, next: NextFunction) => {
 app.get('/test-kafka-producer', async (request: Request, response: Response, next: NextFunction) => {
     // create a new Kafka instance with a broker list
     const kafka = new Kafka({
-        clientId: 'wod-data-collect-service',
+        clientId: 'crossfit-diary',
         brokers: ['kafka:9092'],
     });
 
@@ -36,7 +36,7 @@ app.get('/test-kafka-producer', async (request: Request, response: Response, nex
     await producer.send({
         topic: 'MyTestTopic',
         messages: [
-            { value: 'Hello KafkaJS user!' },
+            { value: 'Hello KafkaJS user new new!' },
         ],
     });
 
