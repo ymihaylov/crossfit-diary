@@ -23,7 +23,7 @@ app.get('/test-kafka-producer', async (request: Request, response: Response, nex
     // create a new Kafka instance with a broker list
     const kafka = new Kafka({
         clientId: 'wod-data-collect-service',
-        brokers: ['localhost:9094'],
+        brokers: ['kafka:9092'],
     });
 
     // create a producer instance
