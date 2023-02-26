@@ -1,8 +1,10 @@
+
 import { config } from 'dotenv';
 import express, { Application, NextFunction, Request, Response } from 'express';
 import { ValidationError } from 'sequelize';
 import { WodEntry } from './models/wod-entry.model';
 import ValidationService from './services/ValidationService';
+import { Kafka } from 'kafkajs';
 
 config();
 
@@ -17,7 +19,34 @@ app.get('/', (request: Request, response: Response, next: NextFunction) => {
     });
 });
 
+app.get('/test-kafka-producer', async (request: Request, response: Response, next: NextFunction) => {
+    // create a new Kafka instance with a broker list
+    const kafka = new Kafka({
+        clientId: 'crossfit-diary',
+        brokers: ['kafka:9092'],
+    });
+
+    // create a producer instance
+    const producer = kafka.producer();
+
+    // connect the producer
+    await producer.connect();
+
+    // send a message to a topic
+    await producer.send({
+        topic: 'MyTestTopic',
+        messages: [
+            { value: 'Hello KafkaJS user new new!' },
+        ],
+    });
+
+    response.json({
+        status: "successs",
+        message: "Added!",
+    });
+});
 app.post('/collect-wod-data', (request: Request, response: Response, next: NextFunction) => {
+
     WodEntry.create({text: request.body.text, wod_date: request.body.date})
         .then(function (wodEntry: WodEntry) {
             response.status(200).json({
