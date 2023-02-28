@@ -33,12 +33,12 @@ app.get('/test-kafka-producer', async (request: Request, response: Response, nex
     await producer.connect();
 
     // send a message to a topic
-    await producer.send({
-        topic: 'MyTestTopic',
-        messages: [
-            { value: 'Hello KafkaJS user new new!' },
-        ],
-    });
+    // await producer.send({
+    //     topic: 'MyTestTopic',
+    //     messages: [
+    //         { value: 'Hello KafkaJS user new new!' },
+    //     ],
+    // });
 
     response.json({
         status: "successs",
