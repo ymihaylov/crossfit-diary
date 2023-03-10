@@ -21,16 +21,16 @@ app.get('/', (request: Request, response: Response, next: NextFunction) => {
 
 app.get('/test-kafka-producer', async (request: Request, response: Response, next: NextFunction) => {
     // create a new Kafka instance with a broker list
-    const kafka = new Kafka({
-        clientId: 'crossfit-diary',
-        brokers: ['kafka:9092'],
-    });
+    // const kafka = new Kafka({
+    //     clientId: 'crossfit-diary',
+    //     brokers: ['kafka:9092'],
+    // });
 
     // create a producer instance
-    const producer = kafka.producer();
+    // const producer = kafka.producer();
 
     // connect the producer
-    await producer.connect();
+    // await producer.connect();
 
     // send a message to a topic
     // await producer.send({

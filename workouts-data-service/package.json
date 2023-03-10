@@ -1,5 +1,5 @@
 {
-  "name": "wod-data-collect-service",
+  "name": "workouts-data-service",
   "versin": "1.0.0",
   "description": "Collects raw data for WOD (Workout of the day)",
   "main": "index.js",
