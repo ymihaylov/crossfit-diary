@@ -42,6 +42,15 @@ services:
       PGPORT: 5432
       PGHOST: crossfit-diary-db-service
 
+  crossfit-diary-frontend:
+    build: ./crossfit-diary-frontend
+    volumes:
+      - ./crossfit-diary-frontend:/usr/src/app
+    ports:
+      - "3100:3100"
+    depends_on:
+      - wod-data-collect-service
+
   kafka:
     image: wurstmeister/kafka
     ports:
