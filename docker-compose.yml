@@ -12,6 +12,17 @@ services:
   #   volumes:
   #     - ./pgdata:/var/lib/postgresql/data
 
+  mongodb:
+    image: mongo:latest
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db
+
   workouts-data-service:
     build: ./workouts-data-service
     volumes:

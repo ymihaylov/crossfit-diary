@@ -47,32 +47,32 @@ app.get('/test-kafka-producer', async (request: Request, response: Response, nex
 });
 app.post('/collect-wod-data', (request: Request, response: Response, next: NextFunction) => {
 
-    WodEntry.create({text: request.body.text, wod_date: request.body.date})
-        .then(function (wodEntry: WodEntry) {
-            response.status(200).json({
-                status: "Successs",
-                message: "Successfuly created new Wod Entry!",
-            });
-        })
-        .catch((error) => {
-            // @TODO - Move this to middleware
-            if (error instanceof ValidationError) {
-                const validationService = new ValidationService;
+    // WodEntry.create({text: request.body.text, wod_date: request.body.date})
+    //     .then(function (wodEntry: WodEntry) {
+    //         response.status(200).json({
+    //             status: "Successs",
+    //             message: "Successfuly created new Wod Entry!",
+    //         });
+    //     })
+    //     .catch((error) => {
+    //         // @TODO - Move this to middleware
+    //         if (error instanceof ValidationError) {
+    //             const validationService = new ValidationService;
 
-                response.status(422).json({
-                    status: "error",
-                    message: "Validation error!",
-                    errors: validationService.extractErrorMessages(error)
-                });
+    //             response.status(422).json({
+    //                 status: "error",
+    //                 message: "Validation error!",
+    //                 errors: validationService.extractErrorMessages(error)
+    //             });
 
-                return;
-            }
+    //             return;
+    //         }
 
-            response.status(500).json({
-                status: "internal_server_error",
-                message: "something_went_wrong",
-            });
-        });
+    //         response.status(500).json({
+    //             status: "internal_server_error",
+    //             message: "something_went_wrong",
+    //         });
+    //     });
 });
 
 const APP_PORT = process.env.APP_PORT;
