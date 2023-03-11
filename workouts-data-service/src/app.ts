@@ -1,10 +1,11 @@
-
 import { config } from 'dotenv';
 import express, { Application, NextFunction, Request, Response } from 'express';
+
 import { ValidationError } from 'sequelize';
 import { WodEntry } from './models/wod-entry.model';
 import ValidationService from './services/ValidationService';
 import { Kafka } from 'kafkajs';
+import { MongoClient, MongoClientOptions } from 'mongodb';
 
 config();
 
@@ -18,6 +19,35 @@ app.get('/', (request: Request, response: Response, next: NextFunction) => {
         description: "Nothing to do here! Express server with TypeScript!"
     });
 });
+
+app.get('/test-mongo', async (request: Request, response: Response, next: NextFunction) => {
+    testMongoConnection().catch(console.error);
+
+    response.json({
+        status: "successs",
+        message: "Hello World!",
+        description: "Nothing to do here! Express server with TypeScript!"
+    });
+});
+
+async function testMongoConnection() {
+    const mongoUrl = 'mongodb://crossfit-diary-mongodb:27017';
+
+    const client = new MongoClient(mongoUrl);
+
+    try {
+        await client.connect();
+        console.log('Connected to MongoDB!');
+    } catch(e) {
+        console.log("Error connecting: ");
+        console.error(e);
+    } finally {
+        await client.close();
+        console.log('Disconnected from MongoDB!');
+    }
+}
+
+
 
 app.get('/test-kafka-producer', async (request: Request, response: Response, next: NextFunction) => {
     // create a new Kafka instance with a broker list
@@ -46,7 +76,20 @@ app.get('/test-kafka-producer', async (request: Request, response: Response, nex
     });
 });
 app.post('/collect-wod-data', (request: Request, response: Response, next: NextFunction) => {
-
+//     workouts: [
+//         {
+//             id: "1234",
+//             date: "2023-02-14",
+//             updatedAt: "2023-02-14",
+//             createdAt: "2023-02-14",
+//             exercies: {
+//                 id: "213123221",
+//                 name: "dasdsadsa",
+//                 updatedAt: "2023-02-14",
+//                 createdAt: "2023-02-14"
+//             }
+// ,        }
+//     ];
     // WodEntry.create({text: request.body.text, wod_date: request.body.date})
     //     .then(function (wodEntry: WodEntry) {
     //         response.status(200).json({

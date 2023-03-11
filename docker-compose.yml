@@ -12,7 +12,7 @@ services:
   #   volumes:
   #     - ./pgdata:/var/lib/postgresql/data
 
-  mongodb:
+  crossfit-diary-mongodb:
     image: mongo:latest
     restart: always
     environment:
@@ -30,8 +30,8 @@ services:
     ports:
       - "3000:3000"
       - "9229:9229"
-    # depends_on:
-      # - crossfit-diary-db-service
+    depends_on:
+      - crossfit-diary-mongodb
       # - kafka
     environment:
       PGUSER: postgres
