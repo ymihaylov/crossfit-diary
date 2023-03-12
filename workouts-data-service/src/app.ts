@@ -25,14 +25,13 @@ app.get('/test-mongo', async (request: Request, response: Response, next: NextFu
 
     response.json({
         status: "successs",
-        message: "Hello World!",
-        description: "Nothing to do here! Express server with TypeScript!"
+        message: "Test monogodb connection",
+        description: "Nothing to do here! Test mongodb connection!"
     });
 });
 
 async function testMongoConnection() {
     const mongoUrl = 'mongodb://crossfit-diary-mongodb:27017';
-
     const client = new MongoClient(mongoUrl);
 
     try {
