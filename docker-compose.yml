@@ -1,17 +1,6 @@
 version: '3'
 
 services:
-  # crossfit-diary-db-service:
-  #   image: postgres:latest
-  #   environment:
-  #     POSTGRES_USER: postgres
-  #     POSTGRES_PASSWORD: postgres
-  #     POSTGRES_DB: crossfit_diary
-  #   ports:
-  #     - "5432:5432"
-  #   volumes:
-  #     - ./pgdata:/var/lib/postgresql/data
-
   crossfit-diary-mongodb:
     image: mongo:latest
     restart: always
@@ -33,12 +22,6 @@ services:
     depends_on:
       - crossfit-diary-mongodb
       # - kafka
-    environment:
-      PGUSER: postgres
-      PGPASSWORD: postgres
-      PGDATABASE: crossfit_diary
-      PGPORT: 5432
-      PGHOST: crossfit-diary-db-service
 
   # workouts-data-transform-service:
   #   build: ./workouts-data-transform-service
@@ -46,12 +29,6 @@ services:
   #     - ./workouts-data-transform-service:/usr/src/app
   #   depends_on:
   #     - kafka
-  #   environment:
-  #     PGUSER: postgres
-  #     PGPASSWORD: postgres
-  #     PGDATABASE: crossfit_diary
-  #     PGPORT: 5432
-  #     PGHOST: crossfit-diary-db-service
 
   # crossfit-diary-frontend:
   #   build: ./crossfit-diary-frontend
@@ -82,6 +59,3 @@ services:
   #   image: wurstmeister/zookeeper
   #   ports:
   #     - "2181:2181"
-
-# volumes:
-#   pgdata:
