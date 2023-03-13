@@ -59,3 +59,12 @@ db.users.updateOne({ _id: оbjectId("6112809d7ec144c25156c4dd"), { $pull: { hobb
 
 db.users.replaceOne({ age: 30 }, { name: "John" }); // Finds object with age 30 and replace it with {name: "John"}
 db.users.deleteOne({ name: "John" });
+
+db.createUser({
+   user: "crossfit_diary_user",
+   pwd: "crossfit",
+   roles: [ "readWrite", "dbAdmin" ]
+});
+
+# Mongoose
+

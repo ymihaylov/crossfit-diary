@@ -6,6 +6,7 @@ import { WodEntry } from './models/wod-entry.model';
 import ValidationService from './services/ValidationService';
 import { Kafka } from 'kafkajs';
 import { MongoClient, MongoClientOptions } from 'mongodb';
+import { Mongoose } from 'mongoose';
 
 config();
 
@@ -19,6 +20,29 @@ app.get('/', (request: Request, response: Response, next: NextFunction) => {
         description: "Nothing to do here! Express server with TypeScript!"
     });
 });
+
+app.get('/test-mongoose', async (request: Request, response: Response, next: NextFunction) => {
+    testMongooseConnection();
+
+    response.json({
+        status: "successs",
+        message: "Test mongoose connection",
+        description: "Nothing to do here! Test mongodb connection!"
+    });
+});
+
+function testMongooseConnection() {
+    const mongoUrl = 'mongodb://crossfit_diary_user:crossfit@crossfit-diary-mongodb:27017/crossfit_diary';
+
+    const mongoose = new Mongoose();
+    mongoose.connect(mongoUrl)
+        .then(connection => {
+            console.log('Connected!');
+        })
+        .catch(error => {
+            console.error("Error: " + error);
+        });
+}
 
 app.get('/test-mongo', async (request: Request, response: Response, next: NextFunction) => {
     testMongoConnection().catch(console.error);
