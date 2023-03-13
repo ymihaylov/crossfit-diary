@@ -1,17 +1,18 @@
 import { config } from 'dotenv';
 import express, { Application, NextFunction, Request, Response } from 'express';
 
-import { ValidationError } from 'sequelize';
-import { WodEntry } from './models/wod-entry.model';
-import ValidationService from './services/ValidationService';
 import { Kafka } from 'kafkajs';
 import { MongoClient, MongoClientOptions } from 'mongodb';
 import { Mongoose } from 'mongoose';
+import Workout from './models/Workout';
+import MongoDatabase from './database/MongoDatabase';
 
 config();
 
 const app: Application = express();
 app.use(express.json());
+
+app.use(MongoDatabase.middleware);
 
 app.get('/', (request: Request, response: Response, next: NextFunction) => {
     response.json({
@@ -31,45 +32,15 @@ app.get('/test-mongoose', async (request: Request, response: Response, next: Nex
     });
 });
 
-function testMongooseConnection() {
-    const mongoUrl = 'mongodb://crossfit_diary_user:crossfit@crossfit-diary-mongodb:27017/crossfit_diary';
-
-    const mongoose = new Mongoose();
-    mongoose.connect(mongoUrl)
-        .then(connection => {
-            console.log('Connected!');
-        })
-        .catch(error => {
-            console.error("Error: " + error);
-        });
-}
-
-app.get('/test-mongo', async (request: Request, response: Response, next: NextFunction) => {
-    testMongoConnection().catch(console.error);
-
-    response.json({
-        status: "successs",
-        message: "Test monogodb connection",
-        description: "Nothing to do here! Test mongodb connection!"
+async function testMongooseConnection() {
+    const workout = new Workout({
+        name: "Workout 13.03.2023",
+        rawText: "Some workout 2222",
+        workoutDate: Date.now(),
     });
-});
 
-async function testMongoConnection() {
-    const mongoUrl = 'mongodb://crossfit-diary-mongodb:27017';
-    const client = new MongoClient(mongoUrl);
-
-    try {
-        await client.connect();
-        console.log('Connected to MongoDB!');
-    } catch(e) {
-        console.log("Error connecting: ");
-        console.error(e);
-    } finally {
-        await client.close();
-        console.log('Disconnected from MongoDB!');
-    }
+    await workout.save().then(() => console.log("Workout saved"));
 }
-
 
 
 app.get('/test-kafka-producer', async (request: Request, response: Response, next: NextFunction) => {
