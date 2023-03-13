@@ -14,7 +14,7 @@ export default class MongoDatabase {
 				MongoDatabase.databaseConnection = Mongoose.connection;
 			})
 			.catch(error => {
-				console.error("Error appeared while connectio to db: " + error);
+				console.error("Error appeared while connecting to db: " + error);
 			});
 	}
 
@@ -27,7 +27,7 @@ export default class MongoDatabase {
 	};
 
 	/**
-	 * @TODO move this middlewhere somewherelese
+	 * @TODO move this middlewhere somewhere else
 	 */
 	public static middleware(req: any, res: any, next: any) {
 		if (!MongoDatabase.databaseConnection) {
