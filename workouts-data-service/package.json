@@ -1,5 +1,5 @@
 {
-  "name": "wod-data-collect-service",
+  "name": "workouts-data-service",
   "versin": "1.0.0",
   "description": "Collects raw data for WOD (Workout of the day)",
   "main": "index.js",
@@ -20,6 +20,8 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "kafkajs": "^2.2.3",
+    "mongodb": "^5.1.0",
+    "mongoose": "^7.0.1",
     "pg": "^8.9.0",
     "sequelize": "^6.28.0",
     "sequelize-typescript": "^2.1.5"
