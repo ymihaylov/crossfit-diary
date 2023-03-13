@@ -42,6 +42,21 @@ async function testMongooseConnection() {
     await workout.save().then(() => console.log("Workout saved"));
 }
 
+app.post('/collect-wod-data', async (request: Request, response: Response, next: NextFunction) => {
+    const workout = new Workout({
+        name: "Workout 13.03.2023",
+        rawText: "Some workout 2222",
+        workoutDate: Date.now(),
+    });
+
+    await workout.save().then(() => console.log("Workout saved"));
+
+    response.status(200).json({
+        status: "Successs",
+        message: "Successfuly created new workout entry!",
+    });
+});
+
 
 app.get('/test-kafka-producer', async (request: Request, response: Response, next: NextFunction) => {
     // create a new Kafka instance with a broker list
@@ -69,49 +84,10 @@ app.get('/test-kafka-producer', async (request: Request, response: Response, nex
         message: "Added!",
     });
 });
-app.post('/collect-wod-data', (request: Request, response: Response, next: NextFunction) => {
-//     workouts: [
-//         {
-//             id: "1234",
-//             date: "2023-02-14",
-//             updatedAt: "2023-02-14",
-//             createdAt: "2023-02-14",
-//             exercies: {
-//                 id: "213123221",
-//                 name: "dasdsadsa",
-//                 updatedAt: "2023-02-14",
-//                 createdAt: "2023-02-14"
-//             }
-// ,        }
-//     ];
-    // WodEntry.create({text: request.body.text, wod_date: request.body.date})
-    //     .then(function (wodEntry: WodEntry) {
-    //         response.status(200).json({
-    //             status: "Successs",
-    //             message: "Successfuly created new Wod Entry!",
-    //         });
-    //     })
-    //     .catch((error) => {
-    //         // @TODO - Move this to middleware
-    //         if (error instanceof ValidationError) {
-    //             const validationService = new ValidationService;
 
-    //             response.status(422).json({
-    //                 status: "error",
-    //                 message: "Validation error!",
-    //                 errors: validationService.extractErrorMessages(error)
-    //             });
-
-    //             return;
-    //         }
-
-    //         response.status(500).json({
-    //             status: "internal_server_error",
-    //             message: "something_went_wrong",
-    //         });
-    //     });
-});
-
+/**
+ * @TODO Fix this with type in env.d.ts
+ */
 const APP_PORT = process.env.APP_PORT;
 
 app.listen(APP_PORT, () => {
