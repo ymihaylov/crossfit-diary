@@ -1,20 +1,34 @@
 import { NextFunction, Request, Response } from "express";
 import Workout from "../models/Workout";
 
+type CreateWorkoutRequestBody = {
+	name: string,
+	text: string,
+	date: Date
+}
+
 class WorkoutsController {
     public async createWorkout(request: Request, response: Response, next: NextFunction) {
+		const body: CreateWorkoutRequestBody = request.body;
+
 		const workout = new Workout({
-			name: "Workout 13.03.2023",
-			rawText: "Some workout 2222",
-			workoutDate: Date.now(),
+			name: body.name,
+			rawText: body.text,
+			workoutDate: body.date,
 		});
 
-		await workout.save().then(() => console.log("Workout saved"));
+		try {
+			await workout.save();
+			console.log('Workout saved');
 
-		response.status(200).json({
-			status: "Successs",
-			message: "Successfuly created new workout entry!",
-		});
+			response.status(201).json({
+				status: "Successs",
+				message: "Successfuly created new workout entry!",
+				entry_id: workout.id,
+			});
+		} catch (error) {
+			next(error);
+		}
     }
 }
 
