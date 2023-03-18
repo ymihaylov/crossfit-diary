@@ -1,17 +1,20 @@
 const { Kafka } = require("kafkajs");
 
-const kafka = new Kafka({
-	clientId: 'crossfit-diary',
-	brokers: ['kafka:9092']
-});
-
 async function run() {
-	const consumer = kafka.consumer({ groupId: 'test-group' });
-	await consumer.connect();
-	await consumer.subscribe({ topic: 'MyTestTopic' });
+	console.log("Run forest run")
 
-	return await consumer.run({
+	const kafka = new Kafka({
+		clientId: 'workouts-data-transform-service',
+		brokers: ['kafka:9092']
+	});
+
+	const consumer = kafka.consumer({ groupId: 'workouts-data-transform-service-group' });
+	await consumer.connect();
+	await consumer.subscribe({ topic: 'workout_created' });
+
+	await consumer.run({
 		eachMessage: async ({ topic, partition, message }) => {
+			console.log("NEW MESSAGE RECEIVED: ");
 			console.log(topic, partition, message.value.toString());
 		},
 	});

@@ -16,10 +16,10 @@ app.use(routes);
 
 app.get('/test-kafka-producer', async (request: Request, response: Response, next: NextFunction) => {
     // create a new Kafka instance with a broker list
-    // const kafka = new Kafka({
-    //     clientId: 'crossfit-diary',
-    //     brokers: ['kafka:9092'],
-    // });
+// const kafka = new Kafka({
+//     clientId: 'crossfit-diary',
+//     brokers: ['kafka:9092'],
+// });
 
     // create a producer instance
     // const producer = kafka.producer();
