@@ -2,8 +2,6 @@ import { config } from 'dotenv';
 import express, { Application, NextFunction, Request, Response } from 'express';
 
 import { Kafka } from 'kafkajs';
-import { Mongoose } from 'mongoose';
-import Workout from './models/Workout';
 import MongoDatabase from './database/MongoDatabase';
 import routes from './routes';
 

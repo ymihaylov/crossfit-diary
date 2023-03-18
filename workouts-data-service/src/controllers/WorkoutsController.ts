@@ -6,10 +6,15 @@ class WorkoutsController {
 		const workout = new Workout({
 			name: "Workout 13.03.2023",
 			rawText: "Some workout 2222",
-			workoutDate: Date.now(),
+			workoutDate: '2021-02-06',
 		});
 
-		await workout.save().then(() => console.log("Workout saved"));
+		await workout
+			.save()
+			.then(() => console.log("Workout saved"))
+			.catch((e) => {
+				console.log(e);
+			});
 
 		response.status(200).json({
 			status: "Successs",
