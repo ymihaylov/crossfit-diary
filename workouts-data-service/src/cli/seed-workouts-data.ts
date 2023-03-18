@@ -1,6 +1,7 @@
 import MongoDatabase from "../database/MongoDatabase";
 import { config } from 'dotenv';
 import Workout from "../models/Workout";
+import workoutsData from "./workouts-data";
 
 config()
 
@@ -14,11 +15,22 @@ async function execute() {
 	console.log("Connecting to the DB ...");
 	await MongoDatabase.connect(mongoUri);
 
-	console.log("About to delete documetns in collection `workouts` ...");
-	const deleteResult = await Workout.deleteMany({});
-	console.log("Delete command result:", deleteResult);
 
-	console.log("Disconnecting from DB ...");
+	for (const workoutData of workoutsData) {
+		const workout = new Workout({
+			name: workoutData.name,
+			rawText: workoutData.rawText,
+			workoutDate: workoutData.workoutDate,
+		});
+
+		try {
+			await workout.save();
+			console.log(`Workout ${workoutData.name} saved!`);
+		} catch (e) {
+			console.log(e);
+		}
+	}
+
 	await MongoDatabase.disconnect();
 }
 
