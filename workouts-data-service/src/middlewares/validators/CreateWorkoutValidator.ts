@@ -6,6 +6,9 @@ class CreateWorkoutValidator {
 	public validateWorkoutCreation = [
 		check('text', 'Text is required').notEmpty(),
 
+		/**
+		 * @TODO Add validation for unique date
+		 */
 		check('date', 'Invalid date format')
 			.optional()
 			.custom(this.validateDate),

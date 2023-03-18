@@ -16,6 +16,7 @@ const workoutSchema = new Schema<IWorkout>({
 	rawText: {
 		type: String,
 		required: true,
+		immutable: true
 	},
 	workoutDate: {
 		type: Date,
