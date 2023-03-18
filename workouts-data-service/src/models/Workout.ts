@@ -1,6 +1,8 @@
-import { model, Mongoose, Schema } from "mongoose";
+import { model, Mongoose, Schema, Types } from "mongoose";
 
-interface IWorkout extends Document {
+export interface IWorkout extends Document {
+	id: string;
+	// _id: Types.ObjectId;
 	name?: string;
 	rawText: string;
 	workoutDate: Date;
@@ -30,4 +32,3 @@ const workoutSchema = new Schema<IWorkout>({
 const Workout = model('Workout', workoutSchema);
 
 export default Workout;
-

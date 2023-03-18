@@ -1,35 +1,32 @@
 import MongoDatabase from "../database/MongoDatabase";
 import { config } from 'dotenv';
-import Workout from "../models/Workout";
+import Workout, { IWorkout } from "../models/Workout";
 import workoutsData from "./workouts-data";
 import { Kafka } from 'kafkajs';
 
 config()
 
-async function produceMessage(workout: any) {
+async function produceMessage(workout: IWorkout) {
 	const kafka = new Kafka({
-		clientId: 'workouts-data-service',
+		clientId: 'workouts-data-transform-service',
 		brokers: ['kafka:9092'],
 	});
 
-	const producer = kafka.producer();
+    const producer = kafka.producer();
 	try {
 		await producer.connect();
 
-		const result = await producer.send({
+		await producer.send({
 			topic: 'workout_created',
-			messages: [{ value: JSON.stringify({ workoutId: 15 }) }],
+			messages: [
+				{ value: JSON.stringify({ workoutId: workout.id }) },
+			]
 		});
-
-		console.log("hello worldldldldldlddldl");
-
-		console.log("Message sent: ", result);
-	} catch (error) {
-		console.error("Error sending message:", error);
+	} catch (e) {
+		console.error("Kafka error occured", e);
 	} finally {
 		await producer.disconnect();
 	}
-
 }
 
 async function execute() {
@@ -51,7 +48,7 @@ async function execute() {
 
 		try {
 			await workout.save();
-			produceMessage(workout);
+			await produceMessage(workout);
 			break;
 			console.log(`Workout ${workoutData.name} saved!`);
 		} catch (e) {
