@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { check, validationResult } from "express-validator";
+import { DefaultResponseType } from "../../types/ResponseTypes";
 
 class CreateWorkoutValidator {
 	public validateWorkoutCreation = [
@@ -18,7 +19,11 @@ class CreateWorkoutValidator {
 		if (!errors.isEmpty()) {
 			return response
 				.status(400)
-				.json({ errors: errors.array() });
+				.json({
+					status: 'unsuccessful',
+					message: "Validation errors occurred",
+					errors: errors.array(),
+				} as DefaultResponseType);
 		}
 
 		next();

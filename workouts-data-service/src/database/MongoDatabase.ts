@@ -43,36 +43,3 @@ export default class MongoDatabase {
 		next();
 	}
 }
-
-
-// import { Connection, Mongoose } from "mongoose";
-
-// const mongoose = new Mongoose();
-
-// let database: Connection;
-// export const connect = () => {
-// 	if (database) {
-// 	  return;
-// 	}
-
-// 	const mongoUrl = 'mongodb://crossfit_diary_user:crossfit@crossfit-diary-mongodb:27017/crossfit_diary';
-
-// 	mongoose.connect(mongoUrl)
-// 		.then(connection => {
-// 			console.log('Connected to database!');
-// 		})
-// 		.catch(error => {
-// 			console.error("Error appeared while connectio to db: " + error);
-// 		});
-
-// 	database = mongoose.connection;
-// 	return mongoose;
-// };
-
-// export const disconnect = () => {
-// 	if ( ! database) {
-// 		return;
-// 	}
-
-// 	mongoose.disconnect();
-// }

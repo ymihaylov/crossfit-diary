@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import Workout from "../models/Workout";
+import { DefaultResponseType } from "../types/ResponseTypes";
 
 type CreateWorkoutRequestBody = {
 	name: string,
@@ -22,10 +23,10 @@ class WorkoutsController {
 			console.log('Workout saved');
 
 			response.status(201).json({
-				status: "Successs",
-				message: "Successfuly created new workout entry!",
-				entry_id: workout.id,
-			});
+				status: "success",
+				message: "Successfully created new workout entry!",
+				entryId: workout.id,
+			} as DefaultResponseType);
 		} catch (error) {
 			next(error);
 		}
