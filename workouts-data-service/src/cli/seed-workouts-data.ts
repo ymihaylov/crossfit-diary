@@ -3,12 +3,13 @@ import { config } from 'dotenv';
 import Workout, { IWorkout } from "../models/Workout";
 import workoutsData from "./workouts-data";
 import { Kafka } from 'kafkajs';
+import KafkaSerice from "../utils/KafkaService";
 
 config()
 
 async function produceMessage(workout: IWorkout) {
 	const kafka = new Kafka({
-		clientId: 'workouts-data-transform-service',
+		clientId: 'workouts-data-service',
 		brokers: ['kafka:9092'],
 	});
 
@@ -49,8 +50,6 @@ async function execute() {
 		try {
 			await workout.save();
 			await produceMessage(workout);
-			break;
-			console.log(`Workout ${workoutData.name} saved!`);
 		} catch (e) {
 			console.log(e);
 		}
